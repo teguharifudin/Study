@@ -2,7 +2,7 @@
 
 # Study
 
-Using a DTO as the result of a query in Spring Boot with PostgreSQL.
+Using Spring Data JPA to fetch a DTO as the result of map queries in Spring Boot with PostgreSQL.
 
 ## Installation
 
