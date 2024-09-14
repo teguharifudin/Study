@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +36,10 @@ public class Stock {
 
     @Column
     private String nomor;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(columnDefinition = "jsonb")
+    private String attributes;
 
     @Column
     private String gambar;
