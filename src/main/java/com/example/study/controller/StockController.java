@@ -40,34 +40,41 @@ public class StockController {
 	}
 
     @PostMapping(value = "/create")
-    public void createStock(@ModelAttribute Stock stock, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> createStock(@ModelAttribute Stock stock, @RequestParam("file") MultipartFile file) {
         try {
             if (isSupportedContentType(file.getContentType())) {
                 fileService.save(file);
                 stock.setGambar(file.getOriginalFilename());
+            }else{
+                return ResponseEntity.status(HttpStatus.OK).body("Failed to add stock. Only PNG or JPG images are allowed.");
             }
         } catch (Exception e) {
             // log.error("Error processing file: {}", file.getOriginalFilename());
         }
         stockService.create(stock);
+        return ResponseEntity.status(HttpStatus.OK).body("Stock added successful.");
     }
 
     @PutMapping(value = "/update")
-    public void updateStock(@ModelAttribute Stock stock, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> updateStock(@ModelAttribute Stock stock, @RequestParam("file") MultipartFile file) {
         try {
             if (isSupportedContentType(file.getContentType())) {
                 fileService.save(file);
                 stock.setGambar(file.getOriginalFilename());
+            }else{
+                return ResponseEntity.status(HttpStatus.OK).body("Failed to update stock. Only PNG or JPG images are allowed.");
             }
         } catch (Exception e) {
             // log.error("Error processing file: {}", file.getOriginalFilename());
         }
         stockService.update(stock, stock.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Stock updated successful.");
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteStock(@PathVariable("id") Integer id) {
+    public ResponseEntity<String> deleteStock(@PathVariable("id") Integer id) {
         stockService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Stock has been removed.");
     }
 
     private boolean isSupportedContentType(String contentType) {
