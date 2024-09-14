@@ -2,7 +2,7 @@
 
 # Study
 
-Using a DTO as the result of a query in Spring Boot.
+Using a DTO as the result of a query in Spring Boot with PostgreSQL.
 
 ## Installation
 
