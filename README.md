@@ -2,7 +2,7 @@
 
 # Study
 
-Using Spring Data JPA to fetch a DTO as the result of map queries in Spring Boot with PostgreSQL. And validate image input according to allowed MIME.
+Using Spring Data JPA to fetch DTOs as map query results in Spring Boot with PostgreSQL. And providing request and response log files, and validating image input as per allowed MIME.
 
 ## Installation
 
