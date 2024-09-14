@@ -18,6 +18,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
     @Modifying
     @Query(value = "DELETE FROM stock WHERE id = :id", nativeQuery = true)
-    void deleteById(int id);
+    void deleteById(Integer id);
 
 }
