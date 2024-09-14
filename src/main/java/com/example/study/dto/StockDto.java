@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StockDto {
-    private int id;
+    private Integer id;
 
     private String nama;
 
