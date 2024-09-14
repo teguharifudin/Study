@@ -5,8 +5,6 @@ import com.example.study.dto.StockDto;
 import com.example.study.service.StockService;
 import com.example.study.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/stocks")
@@ -28,18 +27,19 @@ public class StockController {
     @Autowired
     private FileService fileService;
 
+    // @GetMapping
+    // public List<Stock> getStocks() {
+    //     return stockService.getStocks();
+    // }
+
     @GetMapping
-    public List<StockDto> getStockList() {
-        return stockService.getStockList();
+    public List<StockDto> getStocks() {
+        return stockService.getStocks();
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Stock> getStock(@PathVariable("id") final Long id) {
-        final Stock fetchedStock = stockService.findById(id);
-        if (fetchedStock == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(fetchedStock, HttpStatus.OK);
+    public Optional<Stock> findById(@PathVariable Integer id){
+        return stockService.findById(id);
     }
 
     @PostMapping(value = "/create")
