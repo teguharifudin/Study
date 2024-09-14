@@ -1,38 +1,24 @@
 package com.example.study.repository;
 
 import com.example.study.model.Stock;
+// import com.example.study.dto.StockDto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+// import java.util.List;
 import java.util.Optional;
 
 public interface StockRepository extends JpaRepository<Stock, Integer> {
-    @Query(value = "SELECT e.id, e.nama, e.stok, e.nomor, e.gambar, e.usr, e.created, e.rev, e.updated FROM stock e", nativeQuery = true)
-    List<Stock> getStocks();
 
-    interface Stock {
+    // @Query(value = "SELECT * FROM stock", nativeQuery = true)
+    // List<Stock> getStocks();
 
-        String getId();
+    @Query(value = "SELECT * FROM stock WHERE id = :id", nativeQuery = true)
+    Optional<Stock> findById(Integer id);
 
-        String getNama();
-
-        String getStok();
-
-        String getNomor();
-
-        String getGambar();
-
-        String getUsr();
-
-        String getCreated();
-
-        String getRev();
-
-        String getUpdated();
-
-    }
-
-    Optional<com.example.study.model.Stock> findById(Long id);
+    @Modifying
+    @Query(value = "DELETE FROM stock WHERE id = :id", nativeQuery = true)
+    void deleteById(int id);
 
 }
