@@ -18,6 +18,8 @@ public class StockDto {
 
     private String nomor;
 
+    private String attributes;
+
     private String gambar;
 
     private String usr;
