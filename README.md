@@ -20,18 +20,19 @@ mvn spring-boot:run
 
 ## Usage
 
-Then run the app at http://localhost:8081/api
+Then run the app at http://localhost:8081/api/stocks
 
-### GET /stocks
+### GET /
 
-### GET /stocks/{id}
+### GET /{id}
 
-### POST /stocks/create
+### POST /create
 ```
 {
-    "nama": "Tes 1",
+    "nama": "Tes",
     "stok": "100",
     "nomor": "1",
+    "attributes": "{\"size\": \"6 inch\", \"color\": \"blue\"}",
     "file": "./images/example.jpg",
     "usr": "Budi",
     "created": "2024-07-28",
@@ -40,22 +41,23 @@ Then run the app at http://localhost:8081/api
 }
 ```
 
-### PUT /stocks/update
+### PUT /update
 ```
 {
     "id": 1,
-    "nama": "Tes 1",
+    "nama": "Tes",
     "stok": "100",
     "nomor": "1",
+    "attributes": "{\"size\": \"6 inch\", \"color\": \"blue\"}",
     "file": "./images/example.jpg",
     "usr": "Budi",
     "created": "2024-07-28",
-    "rev": Budi,
+    "rev": "Budi",
     "updated": "2024-07-29"
 }
 ```
 
-### DELETE /stocks/{id}
+### DELETE /{id}
 
 ## Contributing
 
