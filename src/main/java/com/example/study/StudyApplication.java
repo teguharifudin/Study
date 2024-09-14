@@ -1,13 +1,13 @@
 package com.example.study;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class StudyApplication implements ApplicationRunner {
@@ -17,6 +17,11 @@ public class StudyApplication implements ApplicationRunner {
         SpringApplication.run(StudyApplication.class, args);
     }
 
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
+	
 	@Override
 	public void run(ApplicationArguments applicationArguments) throws Exception {
 		logger.debug("Debugging log");
