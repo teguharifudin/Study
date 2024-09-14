@@ -1,8 +1,10 @@
 package com.example.study.service;
 
-import com.example.study.model.Stock;
 import com.example.study.dto.StockDto;
+import com.example.study.model.Stock;
 import com.example.study.repository.StockRepository;
+
+import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -21,7 +24,11 @@ public class StockService {
     @Autowired
     private StockRepository stockRepository;
 
-    public List<StockDto> getStockList() {
+    // public List<Stock> getStocks() {
+    //     return stockRepository.getStocks();
+    // }
+
+    public List<StockDto> getStocks() {
         List<StockDto> stockList = stockRepository.findAll().stream().map(e -> {
             StockDto dto = new StockDto();
             dto.setId(e.getId());
@@ -38,8 +45,8 @@ public class StockService {
         return stockList;
     }
 
-    public Stock findById(final Long id) {
-        return stockRepository.findById(id).get();
+    public Optional<Stock> findById(Integer id) {
+        return stockRepository.findById(id);
     }
 
     public String saveImageToStorage(String uploadDirectory, MultipartFile imageFile) throws IOException {
@@ -57,10 +64,6 @@ public class StockService {
         return uniqueFileName;
     }
 
-    public List<StockRepository.Stock> getStocks() {
-        return stockRepository.getStocks();
-    }
-
     public void create(Stock stock) {
         stockRepository.save(stock);
     }
@@ -69,6 +72,7 @@ public class StockService {
         return stockRepository.save(stock);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
         stockRepository.deleteById(id);
     }
