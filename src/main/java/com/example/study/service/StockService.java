@@ -6,6 +6,8 @@ import com.example.study.repository.StockRepository;
 
 import jakarta.transaction.Transactional;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,36 +19,25 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class StockService {
     @Autowired
     private StockRepository stockRepository;
 
-    // public List<Stock> getStocks() {
-    //     return stockRepository.getStocks();
-    // }
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<StockDto> getStocks() {
-        List<StockDto> stockList = stockRepository.findAll().stream().map(e -> {
-            StockDto dto = new StockDto();
-            dto.setId(e.getId());
-            dto.setNama(e.getNama());
-            dto.setStok(e.getStok());
-            dto.setNomor(e.getNomor());
-            dto.setGambar(e.getGambar());
-            dto.setUsr(e.getUsr());
-            dto.setCreated(e.getCreated());
-            dto.setRev(e.getRev());
-            dto.setUpdated(e.getUpdated());
-            return dto;
-        }).collect(Collectors.toList());
-        return stockList;
+        List<Stock> stock = stockRepository.getStocks();
+        List<StockDto> entityToDto = modelMapper.map(stock, new TypeToken<List<StockDto>>(){}.getType());
+        return entityToDto;
     }
 
-    public Optional<Stock> findById(Integer id) {
-        return stockRepository.findById(id);
+    public Optional<StockDto> findById(Integer id) {
+        Optional<Stock> stock = stockRepository.findById(id);
+        Optional<StockDto> entityToDto = modelMapper.map(stock, new TypeToken<Optional<StockDto>>(){}.getType());
+        return entityToDto;
     }
 
     public String saveImageToStorage(String uploadDirectory, MultipartFile imageFile) throws IOException {
