@@ -42,25 +42,35 @@ public class StockService {
 
     public String saveImageToStorage(String uploadDirectory, MultipartFile imageFile) throws IOException {
         String uniqueFileName = UUID.randomUUID().toString() + "_" + imageFile.getOriginalFilename();
-
         Path uploadPath = Path.of(uploadDirectory);
         Path filePath = uploadPath.resolve(uniqueFileName);
-
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
-
         Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
         return uniqueFileName;
     }
 
-    public void create(Stock stock) {
-        stockRepository.save(stock);
+    public StockDto create(StockDto stockDto) {
+        Stock stock = modelMapper.map(stockDto, Stock.class);
+        Stock savedStock = stockRepository.save(stock);
+        StockDto savedStockDto = modelMapper.map(savedStock, StockDto.class);
+        return savedStockDto;
     }
 
-    public Stock update(Stock stock, Integer id) {
-        return stockRepository.save(stock);
+    public Stock update(StockDto stockDto, Integer id) {
+        Stock existingStock = stockRepository.findById(stockDto.getId()).get();
+        existingStock.setNama(stockDto.getNama());
+        existingStock.setStok(stockDto.getStok());
+        existingStock.setNomor(stockDto.getNomor());
+        existingStock.setGambar(stockDto.getGambar());
+        existingStock.setAttributes(stockDto.getAttributes());
+        existingStock.setUsr(stockDto.getUsr());
+        existingStock.setCreated(stockDto.getCreated());
+        existingStock.setRev(stockDto.getRev());
+        existingStock.setUpdated(stockDto.getUpdated());
+        Stock updatedStock = stockRepository.save(existingStock);
+        return updatedStock;
     }
 
     @Transactional
