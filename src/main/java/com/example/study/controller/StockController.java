@@ -1,6 +1,5 @@
 package com.example.study.controller;
 
-import com.example.study.model.Stock;
 import com.example.study.dto.StockDto;
 import com.example.study.service.StockService;
 import com.example.study.service.FileService;
@@ -40,34 +39,34 @@ public class StockController {
 	}
 
     @PostMapping(value = "/create")
-    public ResponseEntity<String> createStock(@ModelAttribute Stock stock, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> createStock(@ModelAttribute StockDto stockDto, @RequestParam("file") MultipartFile file) {
         try {
             if (isSupportedContentType(file.getContentType())) {
                 fileService.save(file);
-                stock.setGambar(file.getOriginalFilename());
+                stockDto.setGambar(file.getOriginalFilename());
             }else{
                 return ResponseEntity.status(HttpStatus.OK).body("Failed to add stock. Only PNG or JPG images are allowed.");
             }
         } catch (Exception e) {
             // log.error("Error processing file: {}", file.getOriginalFilename());
         }
-        stockService.create(stock);
+        stockService.create(stockDto);
         return ResponseEntity.status(HttpStatus.OK).body("Stock added successful.");
     }
 
     @PutMapping(value = "/update")
-    public ResponseEntity<String> updateStock(@ModelAttribute Stock stock, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> updateStock(@ModelAttribute StockDto stockDto, @RequestParam("file") MultipartFile file) {
         try {
             if (isSupportedContentType(file.getContentType())) {
                 fileService.save(file);
-                stock.setGambar(file.getOriginalFilename());
+                stockDto.setGambar(file.getOriginalFilename());
             }else{
                 return ResponseEntity.status(HttpStatus.OK).body("Failed to update stock. Only PNG or JPG images are allowed.");
             }
         } catch (Exception e) {
             // log.error("Error processing file: {}", file.getOriginalFilename());
         }
-        stockService.update(stock, stock.getId());
+        stockService.update(stockDto, stockDto.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Stock updated successful.");
     }
 
