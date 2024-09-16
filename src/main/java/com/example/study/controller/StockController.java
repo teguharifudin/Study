@@ -42,8 +42,7 @@ public class StockController {
     public ResponseEntity<String> createStock(@ModelAttribute StockDto stockDto, @RequestParam("file") MultipartFile file) {
         try {
             if (isSupportedContentType(file.getContentType())) {
-                fileService.save(file);
-                stockDto.setGambar(file.getOriginalFilename());
+                fileService.save(stockDto, file);
             }else{
                 return ResponseEntity.status(HttpStatus.OK).body("Failed to add stock. Only PNG or JPG images are allowed.");
             }
@@ -58,8 +57,7 @@ public class StockController {
     public ResponseEntity<String> updateStock(@ModelAttribute StockDto stockDto, @RequestParam("file") MultipartFile file) {
         try {
             if (isSupportedContentType(file.getContentType())) {
-                fileService.save(file);
-                stockDto.setGambar(file.getOriginalFilename());
+                fileService.save(stockDto, file);
             }else{
                 return ResponseEntity.status(HttpStatus.OK).body("Failed to update stock. Only PNG or JPG images are allowed.");
             }
