@@ -2,15 +2,15 @@ package com.example.study.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.study.dto.StockDto;
+
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,27 +25,13 @@ public class FileService {
         }
     }
 
-    public void save(MultipartFile file) {
+    public void save(StockDto stockDto, MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            String newName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Files.copy(file.getInputStream(), this.root.resolve(newName));
+            stockDto.setGambar(newName);
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
-        }
-    }
-
-    public Resource load(String filename) {
-        if (filename == null) return null;
-        try {
-            Path file = root.resolve(filename);
-            Resource resource = new UrlResource(file.toUri());
-
-            if (resource.exists() || resource.isReadable()) {
-                return resource;
-            } else {
-                throw new RuntimeException("Could not read the file!");
-            }
-        } catch (MalformedURLException mex) {
-            throw new RuntimeException("Error: " + mex.getMessage());
         }
     }
 
